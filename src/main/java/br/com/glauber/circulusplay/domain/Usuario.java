@@ -1,10 +1,24 @@
 package br.com.glauber.circulusplay.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class Usuario {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String sobrenome;
@@ -12,9 +26,30 @@ public class Usuario {
 	private Date nascimento;
 	private String senha;	
 	
-	private List<Filme> favoritos;
-	private List<Filme> nãoGostei;		
-
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "FILMES_FAVORITOS",
+			joinColumns = @JoinColumn(name = "filme_id"),
+			inverseJoinColumns = @JoinColumn(name = "usuario_id")
+		)
+	private List<Filme> favoritos = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "FILMES_NAO_GOSTEI",
+			joinColumns = @JoinColumn(name = "filme_id"),
+			inverseJoinColumns = @JoinColumn(name = "usuario_id")
+		)	
+	private List<Filme> nãoGostei = new ArrayList<>();		
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "AMIGOS",
+			joinColumns = @JoinColumn(name = "usuario_id"),
+			inverseJoinColumns = @JoinColumn(name = "amigo_id")
+		)
+	private List<Usuario> amigos = new ArrayList<>();
+	
 	public Usuario() {
 	}
 

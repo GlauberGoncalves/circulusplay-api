@@ -1,18 +1,33 @@
 package br.com.glauber.circulusplay.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Comentario {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private String conteudo;
-	private Usuario usuario;
+	// private Usuario usuario;
+
+	@ManyToOne
+	@JoinColumn(name = "filme_id")
 	private Filme filme;
-	
-	public Comentario() {}
+
+	public Comentario() {
+	}
 
 	public Comentario(Integer id, String conteudo, Usuario usuario, Filme filme) {
 		this.id = id;
 		this.conteudo = conteudo;
-		this.usuario = usuario;
+		// this.usuario = usuario;
 		this.filme = filme;
 	}
 
@@ -32,12 +47,12 @@ public class Comentario {
 		this.conteudo = conteudo;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Filme getFilme() {
+		return filme;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setFilme(Filme filme) {
+		this.filme = filme;
 	}
 
 }

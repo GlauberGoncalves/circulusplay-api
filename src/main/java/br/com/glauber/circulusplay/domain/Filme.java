@@ -1,10 +1,25 @@
 package br.com.glauber.circulusplay.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class Filme {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String titulo;
 	private String sinopse;
@@ -14,8 +29,16 @@ public class Filme {
 	private Date dataLancamento;
 	private Integer votos;
 
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "FILME_GENERO",
+			joinColumns = @JoinColumn(name = "filme_id"),
+			inverseJoinColumns = @JoinColumn(name = "genero_id")
+		)
 	private List<Genero> generos;
-	private List<Comentario> comentarios;
+
+	@OneToMany(mappedBy="filme")
+	private List<Comentario> comentarios = new ArrayList<>();;
 
 	public Filme() {
 	}
