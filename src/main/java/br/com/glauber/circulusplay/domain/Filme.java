@@ -37,10 +37,10 @@ public class Filme implements Serializable {
 			joinColumns = @JoinColumn(name = "filme_id"),
 			inverseJoinColumns = @JoinColumn(name = "genero_id")
 		)
-	private List<Genero> generos;
+	private List<Genero> generos = new ArrayList<>();
 
 	@OneToMany(mappedBy="filme")
-	private List<Comentario> comentarios = new ArrayList<>();;
+	private List<Comentario> comentarios = new ArrayList<>();
 
 	public Filme() {
 	}
@@ -127,6 +127,12 @@ public class Filme implements Serializable {
 
 	public void setGeneros(List<Genero> generos) {
 		this.generos = generos;
+	}
+	
+	public void addGenero(Genero genero){
+		if( genero != null){
+			this.generos.add(genero);			
+		}		
 	}
 
 	@Override

@@ -8,8 +8,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.glauber.circulusplay.dao.FilmeDAO;
+import br.com.glauber.circulusplay.dao.GeneroDAO;
 import br.com.glauber.circulusplay.dao.UsuarioDAO;
 import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.domain.Genero;
 import br.com.glauber.circulusplay.domain.Usuario;
 
 @SpringBootApplication
@@ -20,6 +22,9 @@ public class CirculusplayApplication implements CommandLineRunner {
 	
 	@Autowired
 	private FilmeDAO filmeDao;
+	
+	@Autowired
+	private GeneroDAO generoDao;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CirculusplayApplication.class, args);
@@ -45,6 +50,16 @@ public class CirculusplayApplication implements CommandLineRunner {
 		usuarioDao.save(usuario1);
 		usuarioDao.save(usuario2);
 		
+		Genero genero1 = new Genero(null, "Comédia");
+		Genero genero2 = new Genero(null, "Terror");
+		Genero genero3 = new Genero(null, "Suspense");
+		Genero genero4 = new Genero(null, "Ação");
+		
+		generoDao.save(genero1);
+		generoDao.save(genero2);
+		generoDao.save(genero3);
+		generoDao.save(genero4);
+		
 		Filme filme1 = new Filme();
 		Filme filme2 = new Filme();	
 		filme1.setId(null);
@@ -53,6 +68,8 @@ public class CirculusplayApplication implements CommandLineRunner {
 		filme1.setAdulto(false);
 		filme1.setVotos(9999);
 		filme1.setDataLancamento(new Date());
+		filme1.addGenero(genero1);
+		genero1.getFilmes().add(filme1);
 		
 		filme2.setId(null);
 		filme2.setTitulo("Vingadores end game");
@@ -60,6 +77,8 @@ public class CirculusplayApplication implements CommandLineRunner {
 		filme2.setAdulto(false);
 		filme2.setVotos(9999);
 		filme2.setDataLancamento(new Date());
+		filme2.addGenero(genero2);
+		genero2.getFilmes().add(filme2);
 		filmeDao.save(filme1);
 		filmeDao.save(filme2);		
 		
