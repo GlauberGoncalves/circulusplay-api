@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,11 +23,16 @@ public class Usuario {
 	private Integer id;
 	private String nome;
 	private String sobrenome;
+	
+	@Column(unique=true)
 	private String email;
+	
 	private Date nascimento;
-	private String senha;	
 	
 	@JsonIgnore
+	private String senha;	
+	
+	
 	@ManyToMany
 	@JoinTable(name = "FILMES_FAVORITOS",
 			joinColumns = @JoinColumn(name = "filme_id"),
@@ -41,8 +47,7 @@ public class Usuario {
 			inverseJoinColumns = @JoinColumn(name = "usuario_id")
 		)	
 	private List<Filme> nãoGostei = new ArrayList<>();		
-	
-	@JsonIgnore
+		
 	@ManyToMany
 	@JoinTable(name = "AMIGOS",
 			joinColumns = @JoinColumn(name = "usuario_id"),
@@ -148,5 +153,21 @@ public class Usuario {
 	public void setFavoritos(List<Filme> favoritos) {
 		this.favoritos = favoritos;
 	}
+
+	public List<Filme> getNãoGostei() {
+		return nãoGostei;
+	}
+
+	public void setNãoGostei(List<Filme> nãoGostei) {
+		this.nãoGostei = nãoGostei;
+	}
+
+	public List<Usuario> getAmigos() {
+		return amigos;
+	}
+
+	public void setAmigos(List<Usuario> amigos) {
+		this.amigos = amigos;
+	}		
 
 }

@@ -13,6 +13,7 @@ import br.com.glauber.circulusplay.dao.UsuarioDAO;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.domain.Genero;
 import br.com.glauber.circulusplay.domain.Usuario;
+import br.com.glauber.circulusplay.service.UsuarioService;
 
 @SpringBootApplication
 public class CirculusplayApplication implements CommandLineRunner {
@@ -32,23 +33,6 @@ public class CirculusplayApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		
-		Usuario usuario1 = new Usuario();
-		Usuario usuario2 = new Usuario();		
-		usuario1.setId(null);
-		usuario1.setNome("Glauber");
-		usuario1.setNascimento(new Date());
-		usuario1.setEmail("glauber@gmail.com");
-		usuario1.setSenha("123456");		
-		
-		usuario2.setId(null);
-		usuario2.setNome("Jessica");
-		usuario2.setNascimento(new Date());
-		usuario2.setEmail("jessica@gmail.com");
-		usuario2.setSenha("123456");		
-		usuarioDao.save(usuario1);
-		usuarioDao.save(usuario2);
 		
 		Genero genero1 = new Genero(null, "Comédia");
 		Genero genero2 = new Genero(null, "Terror");
@@ -81,6 +65,29 @@ public class CirculusplayApplication implements CommandLineRunner {
 		genero2.getFilmes().add(filme2);
 		filmeDao.save(filme1);
 		filmeDao.save(filme2);		
+		
+		Usuario usuario1 = new Usuario();
+		Usuario usuario2 = new Usuario();		
+		usuario1.setId(null);
+		usuario1.setNome("Glauber");
+		usuario1.setNascimento(new Date());
+		usuario1.setEmail("glauber@gmail.com");
+		usuario1.setSenha("123456");
+		usuario1.getFavoritos().add(filme1);
+		usuario1.getNãoGostei().add(filme2);		
+		
+		usuario2.setId(null);
+		usuario2.setNome("Jessica");
+		usuario2.setNascimento(new Date());
+		usuario2.setEmail("jessica@gmail.com");
+		usuario2.setSenha("123456");
+
+		usuarioDao.save(usuario1);
+		
+		usuario2.getAmigos().add(usuarioDao.findOne(1));
+		
+		usuarioDao.save(usuario2);
+		
 		
 	}
 
