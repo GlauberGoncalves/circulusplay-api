@@ -38,8 +38,7 @@ public class Filme implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "genero_id")
 		)
 	private List<Genero> generos = new ArrayList<>();
-
-	@JsonIgnore
+	
 	@OneToMany(mappedBy="filme")
 	private List<Comentario> comentarios = new ArrayList<>();
 

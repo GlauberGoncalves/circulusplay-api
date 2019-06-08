@@ -1,11 +1,17 @@
 package br.com.glauber.circulusplay.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Comentario {
@@ -16,10 +22,14 @@ public class Comentario {
 
 	private String conteudo;
 	
+	@CreationTimestamp
+	private Date criadoEm;
+	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "filme_id")
 	private Filme filme;
