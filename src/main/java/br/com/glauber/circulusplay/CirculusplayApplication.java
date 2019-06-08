@@ -7,13 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import br.com.glauber.circulusplay.dao.ComentarioDAO;
 import br.com.glauber.circulusplay.dao.FilmeDAO;
 import br.com.glauber.circulusplay.dao.GeneroDAO;
 import br.com.glauber.circulusplay.dao.UsuarioDAO;
+import br.com.glauber.circulusplay.domain.Comentario;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.domain.Genero;
 import br.com.glauber.circulusplay.domain.Usuario;
-import br.com.glauber.circulusplay.service.UsuarioService;
 
 @SpringBootApplication
 public class CirculusplayApplication implements CommandLineRunner {
@@ -26,6 +27,9 @@ public class CirculusplayApplication implements CommandLineRunner {
 	
 	@Autowired
 	private GeneroDAO generoDao;
+	
+	@Autowired
+	private ComentarioDAO comentarioDao;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CirculusplayApplication.class, args);
@@ -63,9 +67,9 @@ public class CirculusplayApplication implements CommandLineRunner {
 		filme2.setDataLancamento(new Date());
 		filme2.addGenero(genero2);
 		genero2.getFilmes().add(filme2);
-		filmeDao.save(filme1);
-		filmeDao.save(filme2);		
-		
+		filme1 = filmeDao.save(filme1);
+		filmeDao.save(filme2);
+						
 		Usuario usuario1 = new Usuario();
 		Usuario usuario2 = new Usuario();		
 		usuario1.setId(null);
@@ -82,11 +86,24 @@ public class CirculusplayApplication implements CommandLineRunner {
 		usuario2.setEmail("jessica@gmail.com");
 		usuario2.setSenha("123456");
 
-		usuarioDao.save(usuario1);
+		usuario1 = usuarioDao.save(usuario1);
 		
 		usuario2.getAmigos().add(usuarioDao.findOne(1));
 		
 		usuarioDao.save(usuario2);
+		
+		System.out.println(usuario1);
+		
+		Comentario comentario1 = new Comentario(null,"Qualquer comentario 1", usuario1, filme1);
+		Comentario comentario2 = new Comentario(null,"Qualquer comentario 2", usuario1, filme1);
+		
+		filme1.getComentarios().add(comentario1);
+		filme1.getComentarios().add(comentario2);
+		
+		filmeDao.save(filme1);
+		
+		comentarioDao.save(comentario1);
+		comentarioDao.save(comentario2);
 		
 		
 	}

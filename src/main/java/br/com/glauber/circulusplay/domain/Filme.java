@@ -39,6 +39,7 @@ public class Filme implements Serializable {
 		)
 	private List<Genero> generos = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy="filme")
 	private List<Comentario> comentarios = new ArrayList<>();
 
@@ -133,6 +134,14 @@ public class Filme implements Serializable {
 		if( genero != null){
 			this.generos.add(genero);			
 		}		
+	}	
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
 	}
 
 	@Override

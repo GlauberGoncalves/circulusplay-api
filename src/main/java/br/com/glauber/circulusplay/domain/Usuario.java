@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,7 +33,7 @@ public class Usuario {
 	@JsonIgnore
 	private String senha;	
 	
-	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "FILMES_FAVORITOS",
 			joinColumns = @JoinColumn(name = "filme_id"),
@@ -48,12 +49,18 @@ public class Usuario {
 		)	
 	private List<Filme> nãoGostei = new ArrayList<>();		
 		
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "AMIGOS",
 			joinColumns = @JoinColumn(name = "usuario_id"),
 			inverseJoinColumns = @JoinColumn(name = "amigo_id")
 		)
 	private List<Usuario> amigos = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="usuario")
+	private List<Comentario> comentarios = new ArrayList<>();
+	
 	
 	public Usuario() {
 	}

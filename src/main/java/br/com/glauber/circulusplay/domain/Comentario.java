@@ -15,7 +15,10 @@ public class Comentario {
 	private Integer id;
 
 	private String conteudo;
-	// private Usuario usuario;
+	
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
 	@ManyToOne
 	@JoinColumn(name = "filme_id")
@@ -27,7 +30,7 @@ public class Comentario {
 	public Comentario(Integer id, String conteudo, Usuario usuario, Filme filme) {
 		this.id = id;
 		this.conteudo = conteudo;
-		// this.usuario = usuario;
+		this.usuario = usuario;
 		this.filme = filme;
 	}
 
