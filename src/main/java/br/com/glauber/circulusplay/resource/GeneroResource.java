@@ -2,6 +2,7 @@ package br.com.glauber.circulusplay.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.glauber.circulusplay.domain.Genero;
+import br.com.glauber.circulusplay.dto.GeneroDto;
 import br.com.glauber.circulusplay.service.GeneroService;
 
 @RestController
@@ -25,8 +27,8 @@ public class GeneroResource {
 	private GeneroService service;
 
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<Genero>> findAll() {
-		List<Genero> lista = service.findAll();
+	public ResponseEntity<List<GeneroDto>> findAll() {
+		List<GeneroDto> lista = service.findAll().stream().map(obj -> new GeneroDto(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(lista);
 	}
 
