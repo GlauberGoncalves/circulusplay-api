@@ -10,7 +10,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.glauber.circulusplay.dao.FilmeDAO;
+import br.com.glauber.circulusplay.dao.GeneroDAO;
 import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.response.FilmeResponse;
 import br.com.glauber.circulusplay.service.exceptions.DataIntegrityException;
 import br.com.glauber.circulusplay.service.exceptions.ObjectNotFoundException;
 
@@ -20,17 +22,32 @@ public class FilmeService {
 	@Autowired
 	private FilmeDAO dao;
 	
+	@Autowired
+	private GeneroDAO generoDao;
+	
+	@Autowired
+	private TheMovieDbService movieDb;
+	
 	public Filme find(Integer id) {
 		Filme obj = dao.findOne(id);
 		if (obj == null) {
-			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
-					+ ", Tipo: " + Filme.class.getName());
+			
+			FilmeResponse filmeResponse = movieDb.findFilmeById(id);
+			obj = filmeResponse.geraFilme();			
+			
+			if(obj == null) {				
+				throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
+						+ ", Tipo: " + Filme.class.getName());
+			}
 		}
+		
+		obj.getGeneros().stream().map(genero -> generoDao.save(genero));				
+		dao.save(obj);
 		return obj;
 	}
 
 	public Filme insert(Filme obj) {
-		obj.setId(null);
+		//obj.setId(null);
 		return dao.save(obj);
 	}
 	

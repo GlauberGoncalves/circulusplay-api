@@ -1,5 +1,7 @@
 package br.com.glauber.circulusplay.response;
 
+import br.com.glauber.circulusplay.domain.Genero;
+
 public class GeneroResponse {
 	
 	private Integer id;
@@ -12,6 +14,10 @@ public class GeneroResponse {
 	public GeneroResponse(Integer id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+	
+	public Genero geraGenero() {
+		return new Genero(this.id, this.name);
 	}
 	
 	public Integer getId() {

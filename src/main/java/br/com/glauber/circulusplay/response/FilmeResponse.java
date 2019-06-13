@@ -2,6 +2,9 @@ package br.com.glauber.circulusplay.response;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.hibernate.mapping.Collection;
 
 import br.com.glauber.circulusplay.domain.Filme;
 
@@ -23,7 +26,7 @@ public class FilmeResponse {
 	}
 
 	public FilmeResponse(boolean adult, String backdrop_path, Integer budget, Date release_date, String title,
-			Double vote_average, String overview) {
+			Double vote_average, String overview, List<GeneroResponse> genres) {
 		this.adult = adult;
 		this.backdrop_path = backdrop_path;
 		this.budget = budget;
@@ -31,6 +34,7 @@ public class FilmeResponse {
 		this.title = title;
 		this.vote_average = vote_average;
 		this.overview = overview;
+		this.genres = genres;
 	}
 
 	public Filme geraFilme() {
@@ -42,6 +46,7 @@ public class FilmeResponse {
 		filme.setTitulo(this.title);
 		filme.setDataLancamento(this.release_date);
 		filme.setSinopse(this.overview);
+		//filme.setGeneros(this.getGenres().stream().map(obj -> obj.geraGenero()).collect(Collectors.toList()));
 
 		return filme;
 
@@ -126,5 +131,14 @@ public class FilmeResponse {
 	public void setGenres(List<GeneroResponse> genres) {
 		this.genres = genres;
 	}
+
+	@Override
+	public String toString() {
+		return "FilmeResponse [id=" + id + ", adult=" + adult + ", backdrop_path=" + backdrop_path + ", budget="
+				+ budget + ", release_date=" + release_date + ", title=" + title + ", vote_average=" + vote_average
+				+ ", poster_path=" + poster_path + ", overview=" + overview + ", genres=" + genres + "]";
+	}
+	
+	
 
 }

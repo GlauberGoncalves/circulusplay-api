@@ -1,6 +1,7 @@
 package br.com.glauber.circulusplay;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +16,8 @@ import br.com.glauber.circulusplay.domain.Comentario;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.domain.Genero;
 import br.com.glauber.circulusplay.domain.Usuario;
+import br.com.glauber.circulusplay.response.GeneroListResponse;
+import br.com.glauber.circulusplay.service.TheMovieDbService;
 
 @SpringBootApplication
 public class CirculusplayApplication implements CommandLineRunner {
@@ -31,6 +34,9 @@ public class CirculusplayApplication implements CommandLineRunner {
 	@Autowired
 	private ComentarioDAO comentarioDao;
 	
+	@Autowired
+	TheMovieDbService moviedb;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CirculusplayApplication.class, args);
 	}
@@ -38,19 +44,28 @@ public class CirculusplayApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Genero genero1 = new Genero(null, "Comédia");
-		Genero genero2 = new Genero(null, "Terror");
-		Genero genero3 = new Genero(null, "Suspense");
-		Genero genero4 = new Genero(null, "Ação");
+		
+		GeneroListResponse generoList = moviedb.findAllGeneros();
+		List<Genero> generos = generoList.getGeneros();
+		
+		
+		Genero genero1 = new Genero(1, "Comédia");
+		Genero genero2 = new Genero(2, "Terror");
+		Genero genero3 = new Genero(3, "Suspense");
+		Genero genero4 = new Genero(4, "Ação");
+		Genero genero5 = generos.get(0);
+		
+		
 		
 		generoDao.save(genero1);
 		generoDao.save(genero2);
 		generoDao.save(genero3);
 		generoDao.save(genero4);
+		generoDao.save(genero5);
 		
 		Filme filme1 = new Filme();
 		Filme filme2 = new Filme();	
-		filme1.setId(null);
+		filme1.setId(1);
 		filme1.setTitulo("Vingadores: infinit war");
 		filme1.setSinopse("Sem sinopse");
 		filme1.setAdulto(false);
@@ -59,7 +74,7 @@ public class CirculusplayApplication implements CommandLineRunner {
 		filme1.addGenero(genero1);
 		genero1.getFilmes().add(filme1);
 		
-		filme2.setId(null);
+		filme2.setId(2);
 		filme2.setTitulo("Vingadores end game");
 		filme2.setSinopse("sem sinopse");
 		filme2.setAdulto(false);
