@@ -30,6 +30,18 @@ public class FilmeResource {
 		return ResponseEntity.ok().body(lista);
 	}
 	
+	@RequestMapping(value="/populares",method=RequestMethod.GET)
+	public ResponseEntity<List<Filme>> findAllPopulares() {
+		List<Filme> lista = service.findPopulares();		 
+		return ResponseEntity.ok().body(lista);
+	}
+	
+	@RequestMapping(value="/buscar/{nome}",method=RequestMethod.GET)
+	public ResponseEntity<List<Filme>> findAllPopulares(@PathVariable String nome) {
+		List<Filme> lista = service.findPorNome(nome);
+		return ResponseEntity.ok().body(lista);
+	}	
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Filme> find(@PathVariable Integer id) {
 		Filme obj = service.find(id);

@@ -1,9 +1,13 @@
 package br.com.glauber.circulusplay.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.response.FilmeListResponse;
 import br.com.glauber.circulusplay.response.FilmeResponse;
 import br.com.glauber.circulusplay.response.GeneroListResponse;
 import br.com.glauber.circulusplay.service.exceptions.ObjectNotFoundException;
@@ -51,6 +55,46 @@ public class TheMovieDbService {
 		}
 		
 		return generos;
+	}
+	
+	public List<Filme> findFilmesPopulares() {
+		
+		String url = String.format("%s/movie/popular?api_key=%s&sort_by=release_date.desc&language=pt-BR", this.url, this.key);
+		FilmeListResponse filmes;
+		
+		try {
+			System.out.println(url);
+			System.out.println(this.key);
+			filmes = restTemplate.getForObject(url, FilmeListResponse.class);			
+			
+		} catch(Exception e) {
+			
+			throw new ObjectNotFoundException("Lista de filmes não encontrada");
+		}
+		
+		
+		
+		return filmes.getResults().stream().map(obj -> obj.geraFilme()).collect(Collectors.toList());
+		
+	}
+	
+	public List<Filme> findFilmePorNome(String nome){
+		
+		String url = String.format("%s/search/movie?api_key=%s&sort_by=release_date.desc&language=pt-BR&query=%s", this.url, this.key, nome);
+		FilmeListResponse filmes;
+		
+		try {
+			System.out.println(url);
+			System.out.println(this.key);
+			filmes = restTemplate.getForObject(url, FilmeListResponse.class);			
+			
+		} catch(Exception e) {
+			
+			throw new ObjectNotFoundException("Lista de filmes não encontrada");
+		}				
+		
+		return filmes.getResults().stream().map(obj -> obj.geraFilme()).collect(Collectors.toList());
+				
 	}
 
 }

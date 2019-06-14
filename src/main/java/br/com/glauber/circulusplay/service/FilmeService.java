@@ -70,9 +70,17 @@ public class FilmeService {
 		return dao.findAll();
 	}
 	
+	public List<Filme> findPopulares(){
+		return movieDb.findFilmesPopulares();
+	}
+	
+	public List<Filme> findPorNome(String nome){
+		return movieDb.findFilmePorNome(nome);
+	}
+	
 	public Page<Filme> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return dao.findAll(pageRequest);
-	}	
+	}
 	
 }

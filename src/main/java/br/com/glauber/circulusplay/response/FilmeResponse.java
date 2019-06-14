@@ -2,9 +2,6 @@ package br.com.glauber.circulusplay.response;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.hibernate.mapping.Collection;
 
 import br.com.glauber.circulusplay.domain.Filme;
 
@@ -46,6 +43,7 @@ public class FilmeResponse {
 		filme.setTitulo(this.title);
 		filme.setDataLancamento(this.release_date);
 		filme.setSinopse(this.overview);
+		filme.setVotos(this.vote_average);
 		//filme.setGeneros(this.getGenres().stream().map(obj -> obj.geraGenero()).collect(Collectors.toList()));
 
 		return filme;

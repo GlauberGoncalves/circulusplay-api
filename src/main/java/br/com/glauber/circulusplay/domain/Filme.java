@@ -7,50 +7,48 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Filme implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	// @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String titulo;
-	
-	@Column(length=4000)
+
+	@Column(length = 4000)
 	private String sinopse;
-	
+
 	private Boolean adulto;
 	private String imagemFundo;
 	private String imagemPoster;
+	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataLancamento;
-	private Integer votos;
+	private Double votos;
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "FILME_GENERO",
-			joinColumns = @JoinColumn(name = "filme_id"),
-			inverseJoinColumns = @JoinColumn(name = "genero_id")
-		)
+	@JoinTable(name = "FILME_GENERO", joinColumns = @JoinColumn(name = "filme_id"), inverseJoinColumns = @JoinColumn(name = "genero_id"))
 	private List<Genero> generos = new ArrayList<>();
-	
-	@OneToMany(mappedBy="filme")
+
+	@OneToMany(mappedBy = "filme")
 	private List<Comentario> comentarios = new ArrayList<>();
 
 	public Filme() {
 	}
 
 	public Filme(Integer id, String titulo, String sinopse, Boolean adulto, String imagemFundo, String imagemPoster,
-			Date dataLancamento, Integer votos) {
+			Date dataLancamento, Double votos) {
 		this.id = id;
 		this.titulo = titulo;
 		this.sinopse = sinopse;
@@ -117,11 +115,11 @@ public class Filme implements Serializable {
 		this.dataLancamento = dataLancamento;
 	}
 
-	public Integer getVotos() {
+	public Double getVotos() {
 		return votos;
 	}
 
-	public void setVotos(Integer votos) {
+	public void setVotos(Double votos) {
 		this.votos = votos;
 	}
 
@@ -132,12 +130,12 @@ public class Filme implements Serializable {
 	public void setGeneros(List<Genero> generos) {
 		this.generos = generos;
 	}
-	
-	public void addGenero(Genero genero){
-		if( genero != null){
-			this.generos.add(genero);			
-		}		
-	}	
+
+	public void addGenero(Genero genero) {
+		if (genero != null) {
+			this.generos.add(genero);
+		}
+	}
 
 	public List<Comentario> getComentarios() {
 		return comentarios;
