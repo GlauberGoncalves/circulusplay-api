@@ -2,8 +2,10 @@ package br.com.glauber.circulusplay.response;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.domain.Genero;
 
 public class FilmeResponse {
 
@@ -17,13 +19,14 @@ public class FilmeResponse {
 	private String poster_path;
 	private String overview;
 	private List<GeneroResponse> genres;
+	private List<Integer> genre_ids;
 
 	public FilmeResponse() {
 
 	}
 
 	public FilmeResponse(boolean adult, String backdrop_path, Integer budget, Date release_date, String title,
-			Double vote_average, String overview, List<GeneroResponse> genres) {
+			Double vote_average, String overview, List<GeneroResponse> genres, List<Integer> genre_ids) {
 		this.adult = adult;
 		this.backdrop_path = backdrop_path;
 		this.budget = budget;
@@ -32,6 +35,7 @@ public class FilmeResponse {
 		this.vote_average = vote_average;
 		this.overview = overview;
 		this.genres = genres;
+		this.genre_ids = genre_ids;
 	}
 
 	public Filme geraFilme() {
@@ -43,8 +47,10 @@ public class FilmeResponse {
 		filme.setTitulo(this.title);
 		filme.setDataLancamento(this.release_date);
 		filme.setSinopse(this.overview);
-		filme.setVotos(this.vote_average);
-		//filme.setGeneros(this.getGenres().stream().map(obj -> obj.geraGenero()).collect(Collectors.toList()));
+		filme.setVotos(this.vote_average);		
+		if (this.genres != null) {
+			filme.setGeneros(this.getGenres().stream().map(obj -> obj.geraGenero()).collect(Collectors.toList()));
+		}
 
 		return filme;
 
@@ -130,13 +136,19 @@ public class FilmeResponse {
 		this.genres = genres;
 	}
 
+	public List<Integer> getGenre_ids() {
+		return genre_ids;
+	}
+
+	public void setGenre_ids(List<Integer> genre_ids) {
+		this.genre_ids = genre_ids;
+	}
+
 	@Override
 	public String toString() {
 		return "FilmeResponse [id=" + id + ", adult=" + adult + ", backdrop_path=" + backdrop_path + ", budget="
 				+ budget + ", release_date=" + release_date + ", title=" + title + ", vote_average=" + vote_average
 				+ ", poster_path=" + poster_path + ", overview=" + overview + ", genres=" + genres + "]";
 	}
-	
-	
 
 }

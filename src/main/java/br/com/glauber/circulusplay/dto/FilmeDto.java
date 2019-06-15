@@ -1,21 +1,13 @@
 package br.com.glauber.circulusplay.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.glauber.circulusplay.domain.Filme;
-import br.com.glauber.circulusplay.domain.Genero;
 
 public class FilmeDto implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +18,11 @@ public class FilmeDto implements Serializable {
 	private Boolean adulto;
 	private String imagemFundo;
 	private String imagemPoster;
+	private List<GeneroDto> generos;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date dataLancamento;
+	private Double votos;
 
 	public FilmeDto() {
 
@@ -38,15 +35,11 @@ public class FilmeDto implements Serializable {
 		adulto = filme.getAdulto();
 		imagemFundo = filme.getImagemFundo();
 		imagemPoster = filme.getImagemFundo();
+		dataLancamento = filme.getDataLancamento();
+		votos = filme.getVotos();
+		generos = filme.getGeneros().stream().map(obj -> new GeneroDto(obj.getId(), obj.getNome()))
+				.collect(Collectors.toList());
 	}
-
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date dataLancamento;
-	private Double votos;
-
-	@ManyToMany
-	@JoinTable(name = "FILME_GENERO", joinColumns = @JoinColumn(name = "filme_id"), inverseJoinColumns = @JoinColumn(name = "genero_id"))
-	private List<Genero> generos = new ArrayList<>();
 
 	public Integer getId() {
 		return id;
@@ -112,11 +105,11 @@ public class FilmeDto implements Serializable {
 		this.votos = votos;
 	}
 
-	public List<Genero> getGeneros() {
+	public List<GeneroDto> getGeneros() {
 		return generos;
 	}
 
-	public void setGeneros(List<Genero> generos) {
+	public void setGeneros(List<GeneroDto> generos) {
 		this.generos = generos;
 	}
 

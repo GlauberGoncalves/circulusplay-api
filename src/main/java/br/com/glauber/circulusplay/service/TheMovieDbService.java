@@ -84,16 +84,16 @@ public class TheMovieDbService {
 		FilmeListResponse filmes;
 		
 		try {
-			System.out.println(url);
-			System.out.println(this.key);
-			filmes = restTemplate.getForObject(url, FilmeListResponse.class);			
+			System.out.println(url);			
+			filmes = restTemplate.getForObject(url, FilmeListResponse.class);
+			List<Filme> lista = filmes.getResults().stream().map(obj -> obj.geraFilme()).collect(Collectors.toList());
+			System.out.println(lista.get(0));
+			return lista;
 			
 		} catch(Exception e) {
 			
-			throw new ObjectNotFoundException("Lista de filmes não encontrada");
-		}				
-		
-		return filmes.getResults().stream().map(obj -> obj.geraFilme()).collect(Collectors.toList());
+			throw new ObjectNotFoundException(e.getMessage());
+		}								
 				
 	}
 

@@ -35,7 +35,7 @@ public class Filme implements Serializable {
 	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataLancamento;
 	private Double votos;
-
+	
 	@ManyToMany
 	@JoinTable(name = "FILME_GENERO", joinColumns = @JoinColumn(name = "filme_id"), inverseJoinColumns = @JoinColumn(name = "genero_id"))
 	private List<Genero> generos = new ArrayList<>();

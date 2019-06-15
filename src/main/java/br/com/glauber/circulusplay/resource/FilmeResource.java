@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.dto.FilmeDto;
+import br.com.glauber.circulusplay.dto.FilmeSearchDto;
 import br.com.glauber.circulusplay.service.FilmeService;
 
 @RestController
@@ -40,9 +41,10 @@ public class FilmeResource {
 	}
 	
 	@RequestMapping(value="/buscar/{nome}",method=RequestMethod.GET)
-	public ResponseEntity<List<Filme>> findAllPopulares(@PathVariable String nome) {
+	public ResponseEntity<List<FilmeSearchDto>> findAllPopulares(@PathVariable String nome) {
 		List<Filme> lista = service.findPorNome(nome);
-		return ResponseEntity.ok().body(lista);
+		List<FilmeSearchDto> listaDto = lista.stream().map(obj -> new FilmeSearchDto(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listaDto);
 	}	
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Genero implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -16,6 +18,7 @@ public class Genero implements Serializable {
 	private Integer id;
 	private String nome;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy="generos")
 	private List<Filme> filmes = new ArrayList<>();
 
