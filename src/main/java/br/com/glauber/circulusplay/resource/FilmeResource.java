@@ -2,6 +2,7 @@ package br.com.glauber.circulusplay.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.dto.FilmeDto;
 import br.com.glauber.circulusplay.service.FilmeService;
 
 @RestController
@@ -25,9 +27,10 @@ public class FilmeResource {
 	private FilmeService service;
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<Filme>> findAll() {
-		List<Filme> lista = service.findAll();		 
-		return ResponseEntity.ok().body(lista);
+	public ResponseEntity<List<FilmeDto>> findAll() {
+		List<Filme> lista = service.findAll();	
+		List<FilmeDto> listaDto = lista.stream().map(obj -> new FilmeDto(obj)).collect(Collectors.toList());  
+		return ResponseEntity.ok().body(listaDto);
 	}
 	
 	@RequestMapping(value="/populares",method=RequestMethod.GET)

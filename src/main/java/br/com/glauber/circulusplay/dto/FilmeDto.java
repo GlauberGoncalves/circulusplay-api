@@ -1,4 +1,4 @@
-package br.com.glauber.circulusplay.domain;
+package br.com.glauber.circulusplay.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,57 +6,47 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
-public class Filme implements Serializable {
+import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.domain.Genero;
+
+public class FilmeDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	// @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String titulo;
-
-	@Column(length = 4000)
 	private String sinopse;
-
 	private Boolean adulto;
 	private String imagemFundo;
 	private String imagemPoster;
-	
-	@JsonFormat(pattern="dd/MM/yyyy")
+
+	public FilmeDto() {
+
+	}
+
+	public FilmeDto(Filme filme) {
+		id = filme.getId();
+		titulo = filme.getTitulo();
+		sinopse = filme.getSinopse();
+		adulto = filme.getAdulto();
+		imagemFundo = filme.getImagemFundo();
+		imagemPoster = filme.getImagemFundo();
+	}
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataLancamento;
 	private Double votos;
 
 	@ManyToMany
 	@JoinTable(name = "FILME_GENERO", joinColumns = @JoinColumn(name = "filme_id"), inverseJoinColumns = @JoinColumn(name = "genero_id"))
 	private List<Genero> generos = new ArrayList<>();
-
-	@OneToMany(mappedBy = "filme")
-	private List<Comentario> comentarios = new ArrayList<>();
-
-	public Filme() {
-	}
-
-	public Filme(Integer id, String titulo, String sinopse, Boolean adulto, String imagemFundo, String imagemPoster,
-			Date dataLancamento, Double votos) {
-		this.id = id;
-		this.titulo = titulo;
-		this.sinopse = sinopse;
-		this.adulto = adulto;
-		this.imagemFundo = imagemFundo;
-		this.imagemPoster = imagemPoster;
-		this.dataLancamento = dataLancamento;
-		this.votos = votos;
-	}
 
 	public Integer getId() {
 		return id;
@@ -130,53 +120,4 @@ public class Filme implements Serializable {
 		this.generos = generos;
 	}
 
-	public void addGenero(Genero genero) {
-		if (genero != null) {
-			this.generos.add(genero);
-		}
-	}
-
-	public List<Comentario> getComentarios() {
-		return comentarios;
-	}
-
-	public void setComentarios(List<Comentario> comentarios) {
-		this.comentarios = comentarios;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Filme other = (Filme) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Filme [id=" + id + ", titulo=" + titulo + ", sinopse=" + sinopse + ", adulto=" + adulto
-				+ ", imagemFundo=" + imagemFundo + ", imagemPoster=" + imagemPoster + ", dataLancamento="
-				+ dataLancamento + ", votos=" + votos + ", generos=" + generos + ", comentarios=" + comentarios + "]";
-	}
-
-
-	
-	
 }
