@@ -147,12 +147,6 @@ public class Usuario {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
-				+ ", nascimento=" + nascimento + "]";
-	}
-
 	public List<Filme> getFavoritos() {
 		return favoritos;
 	}
@@ -175,6 +169,13 @@ public class Usuario {
 
 	public void setAmigos(List<Usuario> amigos) {
 		this.amigos = amigos;
-	}		
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
+				+ ", nascimento=" + nascimento + ", senha=" + senha + ", favoritos=" + favoritos + ", nãoGostei="
+				+ nãoGostei + ", amigos=" + amigos + ", comentarios=" + comentarios + "]";
+	}
 
 }

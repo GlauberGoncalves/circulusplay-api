@@ -68,4 +68,20 @@ public class Comentario {
 		this.filme = filme;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	@Override
+	public String toString() {
+		return "Comentario [id=" + id + ", conteudo=" + conteudo + ", criadoEm=" + criadoEm + ", usuario=" + usuario
+				+ ", filme=" + filme + "]";
+	}
+	
+	
+
 }

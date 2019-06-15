@@ -50,7 +50,10 @@ public class Genero implements Serializable {
 	public void setFilmes(List<Filme> filmes) {
 		this.filmes = filmes;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Genero [id=" + id + ", nome=" + nome + ", filmes=" + filmes + "]";
+	}
 
 }
