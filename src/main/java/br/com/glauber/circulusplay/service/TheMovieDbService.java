@@ -45,9 +45,7 @@ public class TheMovieDbService {
 		String url = String.format("%s/genre/movie/list?api_key=%s&sort_by=release_date.desc&language=pt-BR", this.url, this.key);
 		GeneroListResponse generos;
 		
-		try {
-			System.out.println(url);
-			System.out.println(this.key);
+		try {						
 			generos = restTemplate.getForObject(url, GeneroListResponse.class);
 		} catch(Exception e) {
 			
@@ -62,9 +60,7 @@ public class TheMovieDbService {
 		String url = String.format("%s/movie/popular?api_key=%s&sort_by=release_date.desc&language=pt-BR", this.url, this.key);
 		FilmeListResponse filmes;
 		
-		try {
-			System.out.println(url);
-			System.out.println(this.key);
+		try {			
 			filmes = restTemplate.getForObject(url, FilmeListResponse.class);			
 			
 		} catch(Exception e) {
@@ -83,11 +79,9 @@ public class TheMovieDbService {
 		String url = String.format("%s/search/movie?api_key=%s&sort_by=release_date.desc&language=pt-BR&query=%s", this.url, this.key, nome);
 		FilmeListResponse filmes;
 		
-		try {
-			System.out.println(url);			
+		try {					
 			filmes = restTemplate.getForObject(url, FilmeListResponse.class);
-			List<Filme> lista = filmes.getResults().stream().map(obj -> obj.geraFilme()).collect(Collectors.toList());
-			System.out.println(lista.get(0));
+			List<Filme> lista = filmes.getResults().stream().map(obj -> obj.geraFilme()).collect(Collectors.toList());			
 			return lista;
 			
 		} catch(Exception e) {

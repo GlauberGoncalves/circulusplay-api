@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.glauber.circulusplay.domain.Usuario;
+import br.com.glauber.circulusplay.dto.UsuarioDto;
 import br.com.glauber.circulusplay.service.UsuarioService;
 
 @RestController
@@ -31,8 +32,9 @@ public class UsuarioResource {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Usuario> find(@PathVariable Integer id) {
-		Usuario obj = service.find(id);
+	public ResponseEntity<UsuarioDto> find(@PathVariable Integer id) {		
+		Usuario usuario = service.find(id);
+		UsuarioDto obj = new UsuarioDto(usuario);		
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -47,8 +49,7 @@ public class UsuarioResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Usuario usuario, @PathVariable Integer id) {
-		Usuario obj = service.update(usuario);
-		System.out.println(obj);
+		Usuario obj = service.update(usuario);		
 		return ResponseEntity.noContent().build();
 	}
 
