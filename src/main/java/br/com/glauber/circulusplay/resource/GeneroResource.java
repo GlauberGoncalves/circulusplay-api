@@ -51,7 +51,6 @@ public class GeneroResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Genero Genero, @PathVariable Integer id) {
 		Genero obj = service.update(Genero);
-		System.out.println(obj);
 		return ResponseEntity.noContent().build();
 	}
 

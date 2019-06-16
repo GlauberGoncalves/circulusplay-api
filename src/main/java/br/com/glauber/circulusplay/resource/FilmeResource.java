@@ -65,8 +65,7 @@ public class FilmeResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Filme filme, @PathVariable Integer id) {		
-		Filme obj = service.update(filme);
-		System.out.println(obj);
+		Filme obj = service.update(filme);		
 		return ResponseEntity.noContent().build();
 	}
 	
