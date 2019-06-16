@@ -1,5 +1,6 @@
 package br.com.glauber.circulusplay.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,11 +8,12 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.domain.FilmeAssistido;
 import br.com.glauber.circulusplay.domain.Usuario;
 
-public class UsuarioDto {
-
+public class UsuarioDto implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Integer id;
 	private String nome;
 	private String sobrenome;
@@ -19,18 +21,18 @@ public class UsuarioDto {
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date nascimento;
-	private List<FilmeDto> favoritos = new ArrayList<>();
-	private List<Filme> nãoGostei = new ArrayList<>();
-	private List<Usuario> amigos = new ArrayList<>();	
-	
-	public UsuarioDto(Usuario usuario){
-		
+	private List<FilmeAssistidoDto> filmesAssistidos = new ArrayList<>();
+	private List<UsuarioDto> amigos = new ArrayList<>();
+
+	public UsuarioDto(Usuario usuario) {
+
 		this.setId(usuario.getId());
 		this.setNome(usuario.getNome());
 		this.setEmail(usuario.getEmail());
 		this.setSobrenome(usuario.getSobrenome());
-		this.setFavoritos(usuario.getFavoritos().stream().map(FilmeDto::new).collect(Collectors.toList()));
-		
+		this.setNascimento(usuario.getNascimento());
+		this.setFilmesAssistidos(usuario.getFilmesAssistidos().stream().map(FilmeAssistidoDto::new).collect(Collectors.toList()));
+		this.setAmigos(usuario.getAmigos().stream().map(UsuarioDto::new).collect(Collectors.toList()));
 	}
 
 	public Integer getId() {
@@ -73,29 +75,20 @@ public class UsuarioDto {
 		this.nascimento = nascimento;
 	}
 
-	public List<FilmeDto> getFavoritos() {
-		return favoritos;
+	public List<FilmeAssistidoDto> getFilmesAssistidos() {
+		return filmesAssistidos;
 	}
 
-	public void setFavoritos(List<FilmeDto> favoritos) {
-		this.favoritos = favoritos;
+	public void setFilmesAssistidos(List<FilmeAssistidoDto> filmesAssistidos) {
+		this.filmesAssistidos = filmesAssistidos;
 	}
 
-	public List<Filme> getNãoGostei() {
-		return nãoGostei;
-	}
-
-	public void setNãoGostei(List<Filme> nãoGostei) {
-		this.nãoGostei = nãoGostei;
-	}
-
-	public List<Usuario> getAmigos() {
+	public List<UsuarioDto> getAmigos() {
 		return amigos;
 	}
 
-	public void setAmigos(List<Usuario> amigos) {
+	public void setAmigos(List<UsuarioDto> amigos) {
 		this.amigos = amigos;
 	}
-
 
 }

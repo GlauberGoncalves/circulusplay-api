@@ -7,13 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.glauber.circulusplay.dao.ComentarioDAO;
+import br.com.glauber.circulusplay.dao.FilmeAssistidoDAO;
 import br.com.glauber.circulusplay.dao.FilmeDAO;
 import br.com.glauber.circulusplay.dao.GeneroDAO;
 import br.com.glauber.circulusplay.dao.UsuarioDAO;
 import br.com.glauber.circulusplay.domain.Comentario;
 import br.com.glauber.circulusplay.domain.Filme;
+import br.com.glauber.circulusplay.domain.FilmeAssistido;
 import br.com.glauber.circulusplay.domain.Genero;
 import br.com.glauber.circulusplay.domain.Usuario;
+import br.com.glauber.circulusplay.domain.enums.Qualificacao;
 
 @Service
 public class DBService {
@@ -30,6 +33,10 @@ public class DBService {
 	
 	@Autowired
 	private ComentarioDAO comentarioDao;
+	
+	@Autowired
+	private FilmeAssistidoDAO filmeAssistidoDao;
+	
 	
 	public void instanciaDbTest() {
 		
@@ -94,9 +101,16 @@ public class DBService {
 		
 		comentarioDao.save(Arrays.asList(comentario1, comentario2));
 		
-		usuario1.getFavoritos().add(filme1);				
-		usuario1.getNãoGostei().add(filme2);
 		
+		
+		FilmeAssistido filmeAssistido1 = new FilmeAssistido();
+		filmeAssistido1.setId(null);
+		filmeAssistido1.setUsuario(usuario1);
+		filmeAssistido1.setFilme(filme1);
+		filmeAssistido1.setQualificacao(Qualificacao.DIAMANTE);
+		//filmeAssistido1.setData(new Date());
+		
+		filmeAssistidoDao.save(filmeAssistido1);				
 		usuario1.getAmigos().add(usuario2);		
 		
 		usuarioDao.save(Arrays.asList(usuario1, usuario2));

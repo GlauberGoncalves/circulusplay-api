@@ -1,5 +1,6 @@
 package br.com.glauber.circulusplay.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Usuario {
+public class Usuario implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -36,20 +38,8 @@ public class Usuario {
 	private String senha;	
 	
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "FILMES_FAVORITOS",
-			joinColumns = @JoinColumn(name = "filme_id"),
-			inverseJoinColumns = @JoinColumn(name = "usuario_id")
-		)
-	private List<Filme> favoritos = new ArrayList<>();
-	
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "FILMES_NAO_GOSTEI",
-			joinColumns = @JoinColumn(name = "filme_id"),
-			inverseJoinColumns = @JoinColumn(name = "usuario_id")
-		)	
-	private List<Filme> nãoGostei = new ArrayList<>();		
+	@OneToMany(mappedBy="usuario")
+	private List<FilmeAssistido> filmesAssistidos;	
 		
 	@JsonIgnore
 	@ManyToMany
@@ -149,21 +139,6 @@ public class Usuario {
 		return true;
 	}
 	
-	public List<Filme> getFavoritos() {
-		return favoritos;
-	}
-
-	public void setFavoritos(List<Filme> favoritos) {
-		this.favoritos = favoritos;
-	}
-
-	public List<Filme> getNãoGostei() {
-		return nãoGostei;
-	}
-
-	public void setNãoGostei(List<Filme> nãoGostei) {
-		this.nãoGostei = nãoGostei;
-	}
 
 	public List<Usuario> getAmigos() {
 		return amigos;
@@ -173,11 +148,20 @@ public class Usuario {
 		this.amigos = amigos;
 	}
 
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
-				+ ", nascimento=" + nascimento + ", senha=" + senha + ", favoritos=" + favoritos + ", nãoGostei="
-				+ nãoGostei + ", amigos=" + amigos + ", comentarios=" + comentarios + "]";
+	public List<FilmeAssistido> getFilmesAssistidos() {
+		return filmesAssistidos;
 	}
+
+	public void setFilmesAssistidos(List<FilmeAssistido> filmesAssistidos) {
+		this.filmesAssistidos = filmesAssistidos;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}	
 
 }

@@ -41,7 +41,7 @@ public class FilmeService {
 			}
 		}
 		
-		obj.getGeneros().stream().map(genero -> generoDao.save(genero));				
+		//obj.getGeneros().stream().map(genero -> generoDao.save(genero));				
 		dao.save(obj);
 		return obj;
 	}
