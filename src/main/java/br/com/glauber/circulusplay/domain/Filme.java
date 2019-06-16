@@ -14,7 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Filme implements Serializable {
@@ -41,7 +40,7 @@ public class Filme implements Serializable {
 	private List<Genero> generos = new ArrayList<>();
 
 	@OneToMany(mappedBy = "filme")
-	private List<Comentario> comentarios = new ArrayList<>();
+	private List<ComentarioFilme> comentarios = new ArrayList<>();
 
 	public Filme() {
 	}
@@ -136,11 +135,11 @@ public class Filme implements Serializable {
 		}
 	}
 
-	public List<Comentario> getComentarios() {
+	public List<ComentarioFilme> getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(List<Comentario> comentarios) {
+	public void setComentarios(List<ComentarioFilme> comentarios) {
 		this.comentarios = comentarios;
 	}
 

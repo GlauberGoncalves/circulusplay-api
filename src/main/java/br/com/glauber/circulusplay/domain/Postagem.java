@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -26,7 +25,7 @@ public class Postagem implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@JsonFormat(pattern = "dd/MM/yyyy hh:mm")
 	@CreationTimestamp
@@ -41,25 +40,25 @@ public class Postagem implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
-	private Usuario portadoPor;
+	private Usuario usuario;	
 
 	public Postagem() {
 
 	}
 
-	public Postagem(Long id, Date instante, String titulo, Filme filmeAssistido, Usuario portadoPor) {
+	public Postagem(Integer id, Date instante, String titulo, Filme filmeAssistido, Usuario portadoPor) {
 		this.id = id;
 		this.instante = instante;
 		this.titulo = titulo;
 		this.filmeAssistido = filmeAssistido;
-		this.portadoPor = portadoPor;
+		this.usuario = portadoPor;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -88,11 +87,11 @@ public class Postagem implements Serializable {
 	}
 
 	public Usuario getPortadoPor() {
-		return portadoPor;
+		return usuario;
 	}
 
-	public void setPortadoPor(Usuario portadoPor) {
-		this.portadoPor = portadoPor;
+	public void setPortadoPor(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

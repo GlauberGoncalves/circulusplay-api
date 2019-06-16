@@ -2,6 +2,7 @@ package br.com.glauber.circulusplay.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.glauber.circulusplay.domain.Postagem;
 import br.com.glauber.circulusplay.domain.Usuario;
+import br.com.glauber.circulusplay.dto.PostagemDto;
 import br.com.glauber.circulusplay.dto.UsuarioDto;
+import br.com.glauber.circulusplay.service.PostagemService;
 import br.com.glauber.circulusplay.service.UsuarioService;
 
 @RestController
@@ -24,6 +28,9 @@ public class UsuarioResource {
 
 	@Autowired
 	private UsuarioService service;
+	
+	@Autowired
+	private PostagemService postagemService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Usuario>> findAll() {
@@ -36,6 +43,15 @@ public class UsuarioResource {
 		Usuario usuario = service.find(id);
 		UsuarioDto obj = new UsuarioDto(usuario);		
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(value = "/{idUsuario}/postagens", method = RequestMethod.GET)
+	public ResponseEntity<List<PostagemDto> > getPostagens(@PathVariable Integer idUsuario) {		
+		
+		List<Postagem> postagens = postagemService.findByUsuarioId(idUsuario);
+		List<PostagemDto> lista = postagens.stream().map( PostagemDto::new ).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(lista);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -58,4 +74,7 @@ public class UsuarioResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	
+	
 }

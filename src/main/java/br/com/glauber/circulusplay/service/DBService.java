@@ -10,11 +10,14 @@ import br.com.glauber.circulusplay.dao.ComentarioDAO;
 import br.com.glauber.circulusplay.dao.FilmeAssistidoDAO;
 import br.com.glauber.circulusplay.dao.FilmeDAO;
 import br.com.glauber.circulusplay.dao.GeneroDAO;
+import br.com.glauber.circulusplay.dao.PostagemDAO;
 import br.com.glauber.circulusplay.dao.UsuarioDAO;
 import br.com.glauber.circulusplay.domain.Comentario;
+import br.com.glauber.circulusplay.domain.ComentarioFilme;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.domain.FilmeAssistido;
 import br.com.glauber.circulusplay.domain.Genero;
+import br.com.glauber.circulusplay.domain.Postagem;
 import br.com.glauber.circulusplay.domain.Usuario;
 import br.com.glauber.circulusplay.domain.enums.Qualificacao;
 
@@ -36,6 +39,9 @@ public class DBService {
 	
 	@Autowired
 	private FilmeAssistidoDAO filmeAssistidoDao;
+	
+	@Autowired
+	private PostagemDAO postagemDao;
 	
 	
 	public void instanciaDbTest() {
@@ -87,13 +93,13 @@ public class DBService {
 		filmeDao.save(Arrays.asList(filme1, filme2));
 		
 		
-		Comentario comentario1 = new Comentario();
+		ComentarioFilme comentario1 = new ComentarioFilme();
 		comentario1.setId(null);
 		comentario1.setConteudo("Filme lindo!");
 		comentario1.setFilme(filme1);
 		comentario1.setUsuario(usuario1);
 		
-		Comentario comentario2 = new Comentario();
+		ComentarioFilme comentario2 = new ComentarioFilme();
 		comentario2.setId(null);
 		comentario2.setConteudo("Realmente é lindo s2!!!");
 		comentario2.setFilme(filme1);
@@ -113,7 +119,12 @@ public class DBService {
 		filmeAssistidoDao.save(filmeAssistido1);				
 		usuario1.getAmigos().add(usuario2);		
 		
-		usuarioDao.save(Arrays.asList(usuario1, usuario2));
+		usuarioDao.save(Arrays.asList(usuario1, usuario2));		
+		
+		Postagem post1 = new Postagem(null, new Date(), "Glauber assistiu ao filme e gostou", filme1, usuario1);
+		Postagem post2 = new Postagem(null, new Date(), "Achei ruim", filme2, usuario1);
+		
+		postagemDao.save(Arrays.asList(post1, post2));
 
 	}
 		
