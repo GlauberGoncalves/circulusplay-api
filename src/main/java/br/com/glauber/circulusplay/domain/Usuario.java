@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -28,6 +29,7 @@ public class Usuario {
 	@Column(unique=true)
 	private String email;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date nascimento;
 	
 	@JsonIgnore
@@ -146,7 +148,7 @@ public class Usuario {
 			return false;
 		return true;
 	}
-
+	
 	public List<Filme> getFavoritos() {
 		return favoritos;
 	}
