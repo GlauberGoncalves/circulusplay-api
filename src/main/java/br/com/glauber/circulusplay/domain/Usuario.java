@@ -3,10 +3,16 @@ package br.com.glauber.circulusplay.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +23,8 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.glauber.circulusplay.domain.enums.Perfil;
 
 @Entity
 public class Usuario implements Serializable {
@@ -37,6 +45,10 @@ public class Usuario implements Serializable {
 	@JsonIgnore
 	private String senha;	
 	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="usuario")
 	private List<FilmeAssistido> filmesAssistidos;	
@@ -55,6 +67,7 @@ public class Usuario implements Serializable {
 	
 	
 	public Usuario() {
+		this.addPerfil(Perfil.USUARIO);
 	}
 
 	public Usuario(Integer id, String nome, String sobrenome, String email, Date nascimento, String senha) {
@@ -64,6 +77,7 @@ public class Usuario implements Serializable {
 		this.email = email;
 		this.nascimento = nascimento;
 		this.senha = senha;
+		this.addPerfil(Perfil.USUARIO);
 	}
 
 	public Integer getId() {
@@ -112,6 +126,14 @@ public class Usuario implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public Set<Perfil> getPerfils(){
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
 	}
 
 	@Override

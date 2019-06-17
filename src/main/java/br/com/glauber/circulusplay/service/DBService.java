@@ -19,6 +19,7 @@ import br.com.glauber.circulusplay.domain.FilmeAssistido;
 import br.com.glauber.circulusplay.domain.Genero;
 import br.com.glauber.circulusplay.domain.Postagem;
 import br.com.glauber.circulusplay.domain.Usuario;
+import br.com.glauber.circulusplay.domain.enums.Perfil;
 import br.com.glauber.circulusplay.domain.enums.Qualificacao;
 
 @Service
@@ -53,6 +54,7 @@ public class DBService {
 		usuario1.setNascimento(new Date());
 		usuario1.setEmail("glauber@gmail.com");
 		usuario1.setSenha("123456");
+		usuario1.addPerfil(Perfil.ADMIN);
 
 		Usuario usuario2 = new Usuario();		
 		usuario2.setId(null);
