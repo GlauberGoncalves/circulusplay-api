@@ -62,5 +62,9 @@ public class UsuarioService {
 	private void updateData(Usuario newObj, Usuario obj) {
 		newObj.setNome(obj.getNome());
 	}
+
+	public Usuario findByEmail(String email) {
+		return dao.findByEmail(email);		
+	}
 	
 }
