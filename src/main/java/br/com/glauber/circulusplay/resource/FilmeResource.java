@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +35,7 @@ public class FilmeResource {
 		List<FilmeDto> listaDto = lista.stream().map(obj -> new FilmeDto(obj)).collect(Collectors.toList());  
 		return ResponseEntity.ok().body(listaDto);
 	}
-	
+		
 	@RequestMapping(value="/populares",method=RequestMethod.GET)
 	public ResponseEntity<List<Filme>> findAllPopulares() {
 		List<Filme> lista = service.findPopulares();		 
@@ -47,6 +49,7 @@ public class FilmeResource {
 		return ResponseEntity.ok().body(listaDto);
 	}	
 	
+	@Cacheable(value="filme")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Filme> find(@PathVariable Integer id) {
 		Filme obj = service.find(id);
@@ -54,6 +57,7 @@ public class FilmeResource {
 	}
 		
 	@RequestMapping(method=RequestMethod.POST)
+	@CacheEvict(value = "filme", allEntries=true)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Filme filme) {
 		Filme obj = service.insert(filme);
 				
@@ -64,12 +68,14 @@ public class FilmeResource {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@CacheEvict(value = "filme", allEntries=true)
 	public ResponseEntity<Void> update(@Valid @RequestBody Filme filme, @PathVariable Integer id) {		
-		Filme obj = service.update(filme);		
+		service.update(filme);		
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	@CacheEvict(value = "filme", allEntries=true)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
