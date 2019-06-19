@@ -43,6 +43,7 @@ public class Usuario implements Serializable {
 	private Date nascimento;
 	
 	@JsonIgnore
+	@Column(length = 60)
 	private String senha;	
 	
 	@ElementCollection(fetch=FetchType.EAGER)

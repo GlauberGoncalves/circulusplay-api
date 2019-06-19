@@ -7,10 +7,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import br.com.glauber.circulusplay.dao.UsuarioDAO;
 import br.com.glauber.circulusplay.domain.Usuario;
+import br.com.glauber.circulusplay.security.UsuarioSS;
 import br.com.glauber.circulusplay.service.exceptions.DataIntegrityException;
 import br.com.glauber.circulusplay.service.exceptions.ObjectNotFoundException;
 
@@ -65,6 +67,15 @@ public class UsuarioService {
 
 	public Usuario findByEmail(String email) {
 		return dao.findByEmail(email);		
+	}
+	
+	public static UsuarioSS authenticated() {
+		try {
+			return (UsuarioSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 	
 }
