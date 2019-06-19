@@ -29,16 +29,10 @@ public class JWTUtil {
 	
 	
 	public String geraToken(Authentication authentication) {
-		Usuario logado = (Usuario) authentication.getPrincipal();
-		Date hoje = new Date();
-		Date dataExpiracao = new Date(hoje.getTime() + expiration);
-		
 		return Jwts.builder()
-				.setIssuer("API do CirculusPlay")
-				.setSubject(logado.getId().toString())
-				.setIssuedAt(hoje)
-				.setExpiration(dataExpiracao)
-				.signWith(SignatureAlgorithm.HS256, secret)
+				.setSubject(authentication.getName())
+				.setExpiration(new Date(System.currentTimeMillis() + expiration))
+				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
 				.compact();
 	}
 	

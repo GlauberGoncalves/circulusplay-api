@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.glauber.circulusplay.dao.ComentarioDAO;
@@ -12,7 +13,6 @@ import br.com.glauber.circulusplay.dao.FilmeDAO;
 import br.com.glauber.circulusplay.dao.GeneroDAO;
 import br.com.glauber.circulusplay.dao.PostagemDAO;
 import br.com.glauber.circulusplay.dao.UsuarioDAO;
-import br.com.glauber.circulusplay.domain.Comentario;
 import br.com.glauber.circulusplay.domain.ComentarioFilme;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.domain.FilmeAssistido;
@@ -53,7 +53,7 @@ public class DBService {
 		usuario1.setSobrenome("Gonçalves");
 		usuario1.setNascimento(new Date());
 		usuario1.setEmail("glauber@gmail.com");
-		usuario1.setSenha("123456");
+		usuario1.setSenha(new BCryptPasswordEncoder().encode("123456"));
 		usuario1.addPerfil(Perfil.ADMIN);
 
 		Usuario usuario2 = new Usuario();		
@@ -62,7 +62,7 @@ public class DBService {
 		usuario2.setSobrenome("Gonçalves");
 		usuario2.setNascimento(new Date());
 		usuario2.setEmail("jessica@gmail.com");
-		usuario2.setSenha("123456");
+		usuario2.setSenha(new BCryptPasswordEncoder().encode("123456"));
 		
 		
 		usuarioDao.save(usuario1);
