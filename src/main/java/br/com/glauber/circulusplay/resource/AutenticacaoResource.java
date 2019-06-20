@@ -34,7 +34,7 @@ public class AutenticacaoResource {
 		
 		try {
 			Authentication authentication = authManage.authenticate(dadosLogin);
-			String token = jwtUtil.geraToken(authentication);
+			String token = jwtUtil.geraToken(dadosLogin.getName());
 			System.out.println(token);
 			return ResponseEntity.ok().build();			
 		} catch (AuthenticationException e) {

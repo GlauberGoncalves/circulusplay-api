@@ -6,19 +6,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.glauber.circulusplay.dao.UsuarioDAO;
 import br.com.glauber.circulusplay.domain.Usuario;
 import br.com.glauber.circulusplay.security.UsuarioSS;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
-
+	
 	@Autowired
-	private UsuarioService service;
+	private UsuarioDAO usuarioDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Usuario usuario = service.findByEmail(email);
+		Usuario usuario = usuarioDao.findByEmail(email);
 		if(usuario == null) {
 			throw new UsernameNotFoundException(email);
 		}		

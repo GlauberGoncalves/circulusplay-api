@@ -1,6 +1,9 @@
 package br.com.glauber.circulusplay.dto;
 
-public class CredenciaisDto {
+import java.io.Serializable;
+
+public class CredenciaisDto implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private String email;
 	private String senha;
