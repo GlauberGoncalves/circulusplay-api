@@ -33,12 +33,13 @@ public class UsuarioResource {
 	@Autowired
 	private PostagemService postagemService;
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Usuario>> findAll() {
 		List<Usuario> lista = service.findAll();
 		return ResponseEntity.ok().body(lista);
 	}
-
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<UsuarioDto> find(@PathVariable Integer id) {		
 		Usuario usuario = service.find(id);
@@ -46,6 +47,7 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{idUsuario}/postagens", method = RequestMethod.GET)
 	public ResponseEntity<List<PostagemDto> > getPostagens(@PathVariable Integer idUsuario) {		
 		
@@ -55,6 +57,7 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(lista);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Usuario usuario) {
 		Usuario obj = service.insert(usuario);
@@ -64,12 +67,14 @@ public class UsuarioResource {
 		return ResponseEntity.created(uri).build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Usuario usuario, @PathVariable Integer id) {
 		service.update(usuario);		
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);

@@ -56,6 +56,7 @@ public class FilmeResource {
 		return ResponseEntity.ok().body(obj);
 	}
 		
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.POST)
 	@CacheEvict(value = "filme", allEntries=true)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Filme filme) {
@@ -67,6 +68,7 @@ public class FilmeResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	@CacheEvict(value = "filme", allEntries=true)
 	public ResponseEntity<Void> update(@Valid @RequestBody Filme filme, @PathVariable Integer id) {		
@@ -74,6 +76,7 @@ public class FilmeResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	@CacheEvict(value = "filme", allEntries=true)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {

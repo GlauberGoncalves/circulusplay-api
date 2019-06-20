@@ -42,6 +42,7 @@ public class GeneroResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.POST)
 	@CacheEvict(value="generos" , allEntries=true)	
 	public ResponseEntity<Void> insert(@Valid @RequestBody Genero genero) {
@@ -53,6 +54,7 @@ public class GeneroResource {
 		return ResponseEntity.created(uri).build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	@CacheEvict(value="generos" , allEntries=true)
 	public ResponseEntity<Void> update(@Valid @RequestBody Genero Genero, @PathVariable Integer id) {
@@ -60,6 +62,7 @@ public class GeneroResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	@CacheEvict(value="generos" , allEntries=true)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
