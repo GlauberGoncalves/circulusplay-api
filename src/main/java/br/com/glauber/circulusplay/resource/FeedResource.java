@@ -1,60 +1,46 @@
 package br.com.glauber.circulusplay.resource;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.glauber.circulusplay.domain.Usuario;
-import br.com.glauber.circulusplay.dto.PostagemDto;
+import br.com.glauber.circulusplay.dto.FeedDto;
 import br.com.glauber.circulusplay.security.JWTUtil;
-import br.com.glauber.circulusplay.service.PostagemService;
 import br.com.glauber.circulusplay.service.UsuarioService;
 
 @RestController
-@RequestMapping(value = "/postagens")
-public class PostagemResource {
-
-	@Autowired
-	private PostagemService service;
-
-	@Autowired
-	private UsuarioService usuarioService;
-
+@RequestMapping(value="/feed")
+public class FeedResource {
+	
 	@Autowired
 	private JWTUtil jwtUtil;
-
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<PostagemDto>> minhasPostagens(HttpServletRequest req) {
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<FeedDto> postagensAmigos(HttpServletRequest req, @PathVariable int id) {
 
 		Usuario usuario = procuraUsuarioPorToken(req);
+		FeedDto amigoDto = null;
+		
 
-		List<PostagemDto> postagens;
-
-		if (usuario != null) {
-			postagens = service.findByUsuarioId(usuario.getId()).stream().map(PostagemDto::new)
-					.collect(Collectors.toList());
-		} else {
-			postagens = new ArrayList<>();
+		if (usuario != null && usuarioService.verificaAmizade(id, usuario)) {
+			Usuario amigo  = usuarioService.find(id); 
+			amigoDto =  new FeedDto(amigo);
 		}
 
-		return ResponseEntity.ok().body(postagens);
+		return ResponseEntity.ok().body(amigoDto);
 
 	}
-
-	@RequestMapping(value = "/perfil", method = RequestMethod.GET)
-	public ResponseEntity<String> findPerfil() {
-
-		return ResponseEntity.ok().body("teste");
-	}
-
+	
 	private Usuario procuraUsuarioPorToken(HttpServletRequest req) {
 		String token = req.getHeader("Authorization").substring(7);
 
@@ -66,4 +52,5 @@ public class PostagemResource {
 
 		return null;
 	}
+	
 }

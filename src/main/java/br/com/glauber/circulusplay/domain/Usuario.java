@@ -31,47 +31,48 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private String sobrenome;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String email;
-	
-	@JsonFormat(pattern="dd/MM/yyyy")
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date nascimento;
-	
+
 	@JsonIgnore
 	@Column(length = 60)
-	private String senha;	
-	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="PERFIS")
+	private String senha;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="usuario")
-	private List<FilmeAssistido> filmesAssistidos;	
-		
+	@OneToMany(mappedBy = "usuario")
+	private List<FilmeAssistido> filmesAssistidos;
+
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "AMIGOS",
-			joinColumns = @JoinColumn(name = "usuario_id"),
-			inverseJoinColumns = @JoinColumn(name = "amigo_id")
-		)
+	@JoinTable(name = "AMIGOS", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "amigo_id"))
 	private List<Usuario> amigos = new ArrayList<>();
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy = "usuario")
 	private List<Comentario> comentarios = new ArrayList<>();
-	
-	
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "usuario")
+	private List<Postagem> postagens = new ArrayList<>();
+
 	public Usuario() {
 		this.addPerfil(Perfil.USUARIO);
 	}
 
-	public Usuario(Integer id, String nome, String sobrenome, String email, Date nascimento, String senha) {
+	public Usuario(Integer id, String nome, String sobrenome, String email,
+			Date nascimento, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -128,13 +129,21 @@ public class Usuario implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	public Set<Perfil> getPerfils(){
+
+	public Set<Perfil> getPerfils() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
-	
+
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
+	}
+
+	public List<Postagem> getPostagens() {
+		return postagens;
+	}
+
+	public void setPostagens(List<Postagem> postagens) {
+		this.postagens = postagens;
 	}
 
 	@Override
@@ -161,7 +170,6 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-	
 
 	public List<Usuario> getAmigos() {
 		return amigos;
@@ -185,6 +193,6 @@ public class Usuario implements Serializable {
 
 	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
-	}	
+	}
 
 }

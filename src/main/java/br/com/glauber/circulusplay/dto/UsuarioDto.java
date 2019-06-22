@@ -32,7 +32,7 @@ public class UsuarioDto implements Serializable {
 		this.setSobrenome(usuario.getSobrenome());
 		this.setNascimento(usuario.getNascimento());
 		this.setFilmesAssistidos(usuario.getFilmesAssistidos().stream().map(FilmeAssistidoDto::new).collect(Collectors.toList()));
-		this.setAmigos(usuario.getAmigos().stream().map(UsuarioDto::new).collect(Collectors.toList()));
+		//this.setAmigos(usuario.getAmigos().stream().map(UsuarioDto::new).collect(Collectors.toList()));
 	}
 
 	public Integer getId() {

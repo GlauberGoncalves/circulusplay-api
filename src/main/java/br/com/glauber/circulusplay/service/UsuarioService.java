@@ -78,4 +78,17 @@ public class UsuarioService {
 		}
 	}
 	
+	public boolean verificaAmizade(int id, Usuario usuario) {
+		Usuario usuarioAVisualizar = new Usuario();		
+		usuarioAVisualizar.setId(id);
+		boolean ehAmigo = usuario.getAmigos().contains(usuarioAVisualizar);
+		
+		if(ehAmigo) {
+			return true;
+		} else {
+			throw new ObjectNotFoundException("Não tem amigo! Id: " + id
+					+ ", Tipo: " + Usuario.class.getName());
+		}
+	}
+	
 }
