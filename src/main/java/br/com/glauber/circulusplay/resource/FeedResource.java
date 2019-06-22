@@ -41,6 +41,19 @@ public class FeedResource {
 
 	}
 	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<FeedDto> postagens(HttpServletRequest req) {
+
+		Usuario usuario = procuraUsuarioPorToken(req);		
+		FeedDto feed = null;  
+		
+		if (usuario != null) {			 
+			feed =  new FeedDto(usuario);			
+		}
+		
+		return ResponseEntity.ok().body(feed);		
+	}	
+	
 	private Usuario procuraUsuarioPorToken(HttpServletRequest req) {
 		String token = req.getHeader("Authorization").substring(7);
 
