@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.glauber.circulusplay.domain.Filme;
-import br.com.glauber.circulusplay.domain.Genero;
 
 public class FilmeResponse {
 

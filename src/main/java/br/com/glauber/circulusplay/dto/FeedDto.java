@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.glauber.circulusplay.domain.Postagem;
 import br.com.glauber.circulusplay.domain.Usuario;
 
 public class FeedDto {
@@ -14,10 +15,7 @@ public class FeedDto {
 	private List<PostagemDto> postagens = null;
 
 	public FeedDto(Usuario usuario) {
-		this.usuario = new UsuarioDto(usuario);
-		this.amigos = usuario.getAmigos().stream().map(obj -> new UsuarioDto(obj)).collect(Collectors.toList());
-		this.postagens = usuario.getPostagens().stream().map(PostagemDto::new).collect(Collectors.toList());
-		this.ordenaPostagens();
+
 	}
 
 	public UsuarioDto getUsuario() {
@@ -31,7 +29,19 @@ public class FeedDto {
 	public List<PostagemDto> getPostagens() {
 		return postagens;
 	}
-	
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = new UsuarioDto(usuario);
+	}
+
+	public void setAmigos(List<Usuario> amigos) {		
+		this.amigos = amigos.stream().map(UsuarioDto::new).collect(Collectors.toList());;
+	}
+
+	public void setPostagens(List<Postagem> postagens) {
+		this.postagens = postagens.stream().map(PostagemDto::new).collect(Collectors.toList());
+	}
+
 	public void ordenaPostagens() {
 		Comparator<PostagemDto> cmp = new Comparator<PostagemDto>() {
 
@@ -43,12 +53,12 @@ public class FeedDto {
 					return -1;
 				} else {
 					return 0;
-				}				
+				}
 			}
 		};
-		
-		if( this.postagens != null) {
-			Collections.sort(this.postagens, cmp);			
+
+		if (this.postagens != null) {
+			Collections.sort(this.postagens, cmp);
 		}
 	}
 

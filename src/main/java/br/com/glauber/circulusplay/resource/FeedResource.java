@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.glauber.circulusplay.domain.Usuario;
 import br.com.glauber.circulusplay.dto.FeedDto;
 import br.com.glauber.circulusplay.security.JWTUtil;
+import br.com.glauber.circulusplay.service.FeedService;
 import br.com.glauber.circulusplay.service.UsuarioService;
 
 @RestController
@@ -24,23 +24,9 @@ public class FeedResource {
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<FeedDto> postagensAmigos(HttpServletRequest req, @PathVariable int id) {
-
-		Usuario usuario = procuraUsuarioPorToken(req);
-		FeedDto amigoDto = null;
+	@Autowired
+	private FeedService feedService;
 		
-
-		if (usuario != null && usuarioService.verificaAmizade(id, usuario)) {
-			Usuario amigo  = usuarioService.find(id); 
-			amigoDto =  new FeedDto(amigo);
-		}
-
-		return ResponseEntity.ok().body(amigoDto);
-
-	}
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<FeedDto> postagens(HttpServletRequest req) {
 
@@ -48,7 +34,10 @@ public class FeedResource {
 		FeedDto feed = null;  
 		
 		if (usuario != null) {			 
-			feed =  new FeedDto(usuario);			
+			feed =  new FeedDto(usuario);
+			feed.setUsuario(usuario);
+			feed.setAmigos(usuario.getAmigos());			
+			feed.setPostagens(feedService.findFeed(usuario));
 		}
 		
 		return ResponseEntity.ok().body(feed);		

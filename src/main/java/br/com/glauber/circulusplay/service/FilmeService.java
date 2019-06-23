@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.glauber.circulusplay.dao.FilmeDAO;
-import br.com.glauber.circulusplay.dao.GeneroDAO;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.response.FilmeResponse;
 import br.com.glauber.circulusplay.service.exceptions.DataIntegrityException;
@@ -20,10 +19,7 @@ import br.com.glauber.circulusplay.service.exceptions.ObjectNotFoundException;
 public class FilmeService {
 
 	@Autowired
-	private FilmeDAO dao;
-	
-	@Autowired
-	private GeneroDAO generoDao;
+	private FilmeDAO dao;	
 	
 	@Autowired
 	private TheMovieDbService movieDb;
