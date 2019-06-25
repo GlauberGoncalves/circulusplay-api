@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.glauber.circulusplay.domain.FilmeAssistido;
 import br.com.glauber.circulusplay.domain.Usuario;
 
 public class UsuarioDto implements Serializable {

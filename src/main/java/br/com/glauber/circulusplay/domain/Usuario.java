@@ -66,6 +66,10 @@ public class Usuario implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "usuario")
 	private List<Postagem> postagens = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "usuario")
+	private List<NotificacaoAmizade> notificacoes;
 
 	public Usuario() {
 		this.addPerfil(Perfil.USUARIO);
