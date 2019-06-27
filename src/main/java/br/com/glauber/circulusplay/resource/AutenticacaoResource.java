@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.glauber.circulusplay.domain.LoginForm;
+import br.com.glauber.circulusplay.dto.TokenDto;
 import br.com.glauber.circulusplay.security.JWTUtil;
 
 @RestController
@@ -36,10 +37,9 @@ public class AutenticacaoResource {
 			Authentication authentication = authManage.authenticate(dadosLogin);
 			String token = jwtUtil.geraToken(dadosLogin.getName());
 			System.out.println(token);
-			return ResponseEntity.ok().build();			
+			return ResponseEntity.ok(new TokenDto(token, "Bearer"));			
 		} catch (AuthenticationException e) {
-			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
-		}				
+		}
 	}		
 }
