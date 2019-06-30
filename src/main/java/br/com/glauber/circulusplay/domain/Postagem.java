@@ -1,7 +1,9 @@
 package br.com.glauber.circulusplay.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -41,6 +44,9 @@ public class Postagem implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;	
+	
+	@OneToMany(mappedBy = "postagem")	
+	private List<ComentarioPostagem> comentarios = new ArrayList<>();
 
 	public Postagem() {
 
@@ -92,6 +98,11 @@ public class Postagem implements Serializable {
 
 	public void setPortadoPor(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<ComentarioPostagem> getComentarios() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -29,15 +29,14 @@ public class AutenticacaoResource {
 	
 
 	@PostMapping
-	public ResponseEntity<?> autenticar(@RequestBody @Valid LoginForm form){
+	public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginForm form){
 		
 		UsernamePasswordAuthenticationToken dadosLogin = form.converter();
 		
 		try {
-			Authentication authentication = authManage.authenticate(dadosLogin);
-			String token = jwtUtil.geraToken(dadosLogin.getName());
-			System.out.println(token);
-			return ResponseEntity.ok(new TokenDto(token, "Bearer"));			
+			authManage.authenticate(dadosLogin);
+			String token = jwtUtil.geraToken(dadosLogin.getName());			
+			return ResponseEntity.ok().body(new TokenDto(token, "Bearer"));			
 		} catch (AuthenticationException e) {
 			return ResponseEntity.badRequest().build();
 		}
