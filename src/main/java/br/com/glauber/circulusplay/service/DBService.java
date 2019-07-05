@@ -17,7 +17,6 @@ import br.com.glauber.circulusplay.domain.ComentarioFilme;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.domain.FilmeAssistido;
 import br.com.glauber.circulusplay.domain.Genero;
-import br.com.glauber.circulusplay.domain.Postagem;
 import br.com.glauber.circulusplay.domain.Usuario;
 import br.com.glauber.circulusplay.domain.enums.Perfil;
 import br.com.glauber.circulusplay.domain.enums.Qualificacao;
@@ -123,10 +122,10 @@ public class DBService {
 		
 		usuarioDao.save(Arrays.asList(usuario1, usuario2));		
 		
-		Postagem post1 = new Postagem(null, new Date(), "Glauber assistiu ao filme e gostou", filme1, usuario1);
-		Postagem post2 = new Postagem(null, new Date(), "Achei ruim", filme2, usuario1);
+		//Postagem post1 = new Postagem(null, new Date(), "Glauber assistiu ao filme e gostou", filme1, usuario1);
+		//Postagem post2 = new Postagem(null, new Date(), "Achei ruim", filme2, usuario1);
 		
-		postagemDao.save(Arrays.asList(post1, post2));
+		//postagemDao.save(Arrays.asList(post1, post2));
 
 	}
 		

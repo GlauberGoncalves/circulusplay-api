@@ -34,7 +34,7 @@ public class FilmeDto implements Serializable {
 		sinopse = filme.getSinopse();
 		adulto = filme.getAdulto();
 		imagemFundo = filme.getImagemFundo();
-		imagemPoster = filme.getImagemFundo();
+		imagemPoster = filme.getImagemPoster();
 		dataLancamento = filme.getDataLancamento();
 		votos = filme.getVotos();
 		generos = filme.getGeneros().stream().map(obj -> new GeneroDto(obj.getId(), obj.getNome()))

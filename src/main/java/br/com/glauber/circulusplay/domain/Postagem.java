@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -38,8 +40,8 @@ public class Postagem implements Serializable {
 	private String titulo;
 
 	@ManyToOne
-	@JoinColumn(name="filme_id")
-	private Filme filmeAssistido;
+	@JoinColumn(name="filmeAssistido_id")
+	private FilmeAssistido filmeAssistido;
 	
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
@@ -47,12 +49,16 @@ public class Postagem implements Serializable {
 	
 	@OneToMany(mappedBy = "postagem")	
 	private List<ComentarioPostagem> comentarios = new ArrayList<>();
+	
+	
+	@ManyToMany(mappedBy = "postagensLikes")
+	private Set<Usuario> likes;
 
 	public Postagem() {
 
 	}
 
-	public Postagem(Integer id, Date instante, String titulo, Filme filmeAssistido, Usuario portadoPor) {
+	public Postagem(Integer id, Date instante, String titulo, FilmeAssistido filmeAssistido, Usuario portadoPor) {
 		this.id = id;
 		this.instante = instante;
 		this.titulo = titulo;
@@ -84,11 +90,11 @@ public class Postagem implements Serializable {
 		this.titulo = titulo;
 	}
 
-	public Filme getFilmeAssistido() {
+	public FilmeAssistido getFilmeAssistido() {
 		return filmeAssistido;
 	}
 
-	public void setFilmeAssistido(Filme filmeAssistido) {
+	public void setFilmeAssistido(FilmeAssistido filmeAssistido) {
 		this.filmeAssistido = filmeAssistido;
 	}
 

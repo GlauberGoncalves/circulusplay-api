@@ -70,6 +70,13 @@ public class Usuario implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "usuario")
 	private List<NotificacaoAmizade> notificacoes;
+	
+	@ManyToMany
+	@JoinTable(
+			  name = "postagem_like", 
+			  joinColumns = @JoinColumn(name = "usuario_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "postagem_id"))
+	private Set<Postagem> postagensLikes;
 
 	public Usuario() {
 		this.addPerfil(Perfil.USUARIO);
