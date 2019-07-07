@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.glauber.circulusplay.dao.ComentarioDAO;
+import br.com.glauber.circulusplay.dao.ComentarioPostagemDAO;
 import br.com.glauber.circulusplay.dao.FilmeAssistidoDAO;
 import br.com.glauber.circulusplay.dao.FilmeDAO;
 import br.com.glauber.circulusplay.dao.GeneroDAO;
@@ -35,7 +35,7 @@ public class DBService {
 	private FilmeDAO filmeDao;
 	
 	@Autowired
-	private ComentarioDAO comentarioDao;
+	private ComentarioPostagemDAO comentarioDao;
 	
 	@Autowired
 	private FilmeAssistidoDAO filmeAssistidoDao;
@@ -106,7 +106,7 @@ public class DBService {
 		comentario2.setFilme(filme1);
 		comentario2.setUsuario(usuario2);
 		
-		comentarioDao.save(Arrays.asList(comentario1, comentario2));
+		//comentarioDao.save(Arrays.asList(comentario1, comentario2));
 		
 		
 		

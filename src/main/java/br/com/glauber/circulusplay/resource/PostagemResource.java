@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.glauber.circulusplay.domain.Postagem;
 import br.com.glauber.circulusplay.domain.Usuario;
 import br.com.glauber.circulusplay.dto.PostagemDto;
 import br.com.glauber.circulusplay.security.JWTUtil;
@@ -53,6 +55,13 @@ public class PostagemResource {
 	public ResponseEntity<String> findPerfil() {
 
 		return ResponseEntity.ok().body("teste");
+	}
+	
+	@RequestMapping(value="/{id}",method = RequestMethod.GET)
+	public ResponseEntity<Postagem> findById(@PathVariable int id){
+		
+		Postagem postagem = service.find(id);		
+		return ResponseEntity.ok().body(postagem);
 	}
 
 	private Usuario procuraUsuarioPorToken(HttpServletRequest req) {

@@ -13,6 +13,10 @@ public class ComentarioPostagem extends Comentario {
 	@ManyToOne
 	@JoinColumn(name = "postagem_id")
 	private Postagem postagem;
+	
+	public ComentarioPostagem() {
+		
+	}
 
 	public ComentarioPostagem(Integer id, String conteudo, Usuario usuario, Postagem postagem) {
 		super(id, conteudo, usuario);

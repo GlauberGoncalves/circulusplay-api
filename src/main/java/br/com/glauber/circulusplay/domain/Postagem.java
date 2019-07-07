@@ -106,9 +106,8 @@ public class Postagem implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public List<ComentarioPostagem> getComentarios() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ComentarioPostagem> getComentarios() {		
+		return this.comentarios;
 	}
 
 }

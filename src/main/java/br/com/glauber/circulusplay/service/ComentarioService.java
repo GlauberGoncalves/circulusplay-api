@@ -9,8 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import br.com.glauber.circulusplay.dao.ComentarioDAO;
+import br.com.glauber.circulusplay.dao.ComentarioPostagemDAO;
 import br.com.glauber.circulusplay.domain.Comentario;
+import br.com.glauber.circulusplay.domain.ComentarioPostagem;
 import br.com.glauber.circulusplay.domain.Filme;
 import br.com.glauber.circulusplay.service.exceptions.DataIntegrityException;
 import br.com.glauber.circulusplay.service.exceptions.ObjectNotFoundException;
@@ -19,7 +20,7 @@ import br.com.glauber.circulusplay.service.exceptions.ObjectNotFoundException;
 public class ComentarioService {
 
 	@Autowired
-	private ComentarioDAO dao;
+	private ComentarioPostagemDAO dao;
 	
 	public Comentario find(Integer id) {
 		Comentario obj = dao.findOne(id);
@@ -30,12 +31,12 @@ public class ComentarioService {
 		return obj;
 	}
 
-	public Comentario insert(Comentario obj) {
+	public Comentario insert(ComentarioPostagem obj) {
 		obj.setId(null);
 		return dao.save(obj);
 	}
 	
-	public Comentario update(Comentario obj) {
+	public Comentario update(ComentarioPostagem obj) {
 		find(obj.getId());		
 		return dao.save(obj);
 	}
@@ -50,13 +51,17 @@ public class ComentarioService {
 		}
 	}
 	
-	public List<Comentario> findAll() {
+	public List<ComentarioPostagem> findAll() {
 		return dao.findAll();
 	}
 	
-	public Page<Comentario> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+	public Page<ComentarioPostagem> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return dao.findAll(pageRequest);
-	}	
+	}
+
+	public List<Comentario> findByPostagemId(int postagem) {
+		return dao.findByPostagemId(postagem);
+	}
 	
 }
